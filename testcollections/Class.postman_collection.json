@@ -1,0 +1,508 @@
+{
+	"info": {
+		"_postman_id": "c1ea8706-d767-4b5f-a11b-03d2618dd83f",
+		"name": "Class",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "201 ADD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 201', () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Class teste\",\r\n    \"teacher\": \"Class teacher\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}",
+					"host": [
+						"{{path}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "400 ADD - MISSING VALUES",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('Missing class name and teacher', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"\r",
+							"    for (e of data.errors) {\r",
+							"        e = e.toLowerCase()\r",
+							"\r",
+							"        pm.expect(\r",
+							"            e.includes('missing class name') || \r",
+							"            e.includes('missing class teacher') \r",
+							"        ).to.be.true\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}",
+					"host": [
+						"{{path}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 LIST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Returns list of classes', () => {\r",
+							"    const houses = pm.response.json()\r",
+							"\r",
+							"    pm.expect(houses).to.be.an('array')\r",
+							"\r",
+							"    for (h of houses) {\r",
+							"        pm.expect(h).to.be.an('object')\r",
+							"        pm.expect(h).to.have.property('id')\r",
+							"        pm.expect(h).to.have.property('name')\r",
+							"        pm.expect(h).to.have.property('teacher')\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}",
+					"host": [
+						"{{path}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 SHOW",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Returns a class', () => {\r",
+							"    const h = pm.response.json()\r",
+							"\r",
+							"    pm.expect(h).to.be.an('object')\r",
+							"    pm.expect(h).to.have.property('id')\r",
+							"    pm.expect(h).to.have.property('name')\r",
+							"    pm.expect(h).to.have.property('teacher')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/2",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 SHOW",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('Class not foud', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('class not found')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/10",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 UPDATE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Astronomy updated\",\r\n    \"teacher\": \"Professor Sinistra updated\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "400 UPDATE - MISSING VALUES",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('Missing class name and teacher', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"\r",
+							"    for (e of data.errors) {\r",
+							"        e = e.toLowerCase()\r",
+							"\r",
+							"        pm.expect(\r",
+							"            e.includes('missing class name') || \r",
+							"            e.includes('missing class teacher') \r",
+							"        ).to.be.true\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/2",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 UPDATE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('Class not foud', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('class not found')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Astronomy updated\",\r\n    \"teacher\": \"Professor Sinistra updated\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/10",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 DELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/4",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 DELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('Class not foud', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('class not found')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/4",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "path",
+			"value": "localhost:8080/api/v1/classes"
+		}
+	]
+}

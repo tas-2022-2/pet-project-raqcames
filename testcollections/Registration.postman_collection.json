@@ -1,0 +1,789 @@
+{
+	"info": {
+		"_postman_id": "b1ea88ac-9976-46c0-b9db-b1ae5276a1a5",
+		"name": "Registration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "201 ADD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 201', () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"wizardId\": 1,\r\n    \"classId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}",
+					"host": [
+						"{{path}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "422 ADD - WIZARD ALREADY IN CLASS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 422', () => {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"pm.test('Wizard is already registered in class', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('wizard is already registered in class')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"wizardId\": 1,\r\n    \"classId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}",
+					"host": [
+						"{{path}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "400 ADD - MISSING VALUES",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('Missing registration class and wizard', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"\r",
+							"    for (e of data.errors) {\r",
+							"        e = e.toLowerCase()\r",
+							"\r",
+							"        pm.expect(\r",
+							"            e.includes('missing registration wizard id') || \r",
+							"            e.includes('missing registration class id')\r",
+							"        ).to.be.true\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}",
+					"host": [
+						"{{path}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 ADD - CLASS NOT FOUND",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('Class not foud', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('class not found')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"wizardId\": 1,\r\n    \"classId\": 10000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}",
+					"host": [
+						"{{path}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 ADD - WIZARD NOT FOUND",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('Wizard not foud', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('wizard not found')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"wizardId\": 10000,\r\n    \"classId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}",
+					"host": [
+						"{{path}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 LIST",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Returns list of registrations', () => {\r",
+							"    const registrations = pm.response.json()\r",
+							"\r",
+							"    pm.expect(registrations).to.be.an('array')\r",
+							"\r",
+							"    for (r of registrations) {\r",
+							"        pm.expect(r).to.be.an('object')\r",
+							"        pm.expect(r).to.have.property('id')\r",
+							"        pm.expect(r).to.have.property('status')\r",
+							"        \r",
+							"        pm.expect(r).to.have.property('wizard')\r",
+							"        pm.expect(r.wizard).to.be.an('object')\r",
+							"        \r",
+							"        pm.expect(r).to.have.property('c')\r",
+							"        pm.expect(r.c).to.be.an('object')\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}",
+					"host": [
+						"{{path}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 SHOW",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test('Returns a registration', () => {\r",
+							"    const r = pm.response.json()\r",
+							"\r",
+							"    pm.expect(r).to.be.an('object')\r",
+							"    pm.expect(r).to.have.property('id')\r",
+							"    pm.expect(r).to.have.property('status')\r",
+							"    \r",
+							"    pm.expect(r).to.have.property('wizard')\r",
+							"    pm.expect(r.wizard).to.be.an('object')\r",
+							"    \r",
+							"    pm.expect(r).to.have.property('c')\r",
+							"    pm.expect(r.c).to.be.an('object')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 SHOW",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('Registration not foud', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('registration not found')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/100",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 UPDATE STATUS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"APPROVED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "422 UPDATE STATUS - CANNOT REPEAT STATUS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 422', () => {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"pm.test('Cannot repeat registration status', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('can not set same status again')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"APPROVED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "422 UPDATE STATUS - CANNOT CHANGE AFTER EVALUATION",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 422', () => {\r",
+							"    pm.response.to.have.status(422);\r",
+							"});\r",
+							"\r",
+							"pm.test('Cannot change registration status after evaluation', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('can not change status of evaluated class registration')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"FAILED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "400 UPDATE STATUS - MISSING VALUES",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('Missing registratrion status', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('missing registration status')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "400 UPDATE STATUS - INVALID STATUS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 400', () => {\r",
+							"    pm.response.to.have.status(400);\r",
+							"});\r",
+							"\r",
+							"pm.test('Invalid registratrion status', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('invalid registration status')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"APPROVED_INVALID\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 UPDATE STATUS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('Registration not foud', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('registration not found')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"APPROVED\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/100",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "200 DELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 200', () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "404 DELETE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 404', () => {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test('Registration not foud', () => {\r",
+							"    const data = pm.response.json()\r",
+							"\r",
+							"    pm.expect(data).to.be.an('object')\r",
+							"    pm.expect(data).to.have.property('errors')\r",
+							"    pm.expect(data.errors).to.be.an('array')\r",
+							"    pm.expect(data.errors[0].toLowerCase()).to.contain('registration not found')\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{path}}/1",
+					"host": [
+						"{{path}}"
+					],
+					"path": [
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "path",
+			"value": "localhost:8080/api/v1/registrations"
+		}
+	]
+}

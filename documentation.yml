@@ -1,0 +1,554 @@
+swagger: "2.0"
+info:
+  title: Hogwarts API
+  version: 1.0.0
+  contact:
+    name: Raquel Nunes
+    email: raquel.nunes@aluno.riogrande.ifrs.edu.br
+  license:
+    name: Proprietário
+host: hogwarts.com
+basePath: /api/v1
+schemes:
+  - http
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /houses:
+    post:
+      tags:
+        - Houses
+      summary: Adds a house.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: house
+          schema:
+            $ref: "#/definitions/House"
+      responses:
+        201:
+          description: CREATED
+        400:
+          description: BAD REQUEST
+          schema:
+            $ref: "#/definitions/Errors"
+    
+    get:
+      tags:
+        - Houses
+      summary: Lists houses.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/House"
+
+  /houses/{id}:
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+        description: House id
+
+    get:
+      tags:
+        - Houses
+      summary: Shows house
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/House"
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+
+    put:
+      tags:
+        - Houses
+      summary: Updates house
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: house
+          schema:
+            $ref: "#/definitions/House"
+      responses:
+        200:
+          description: OK
+        400:
+          description: BAD REQUEST
+          schema:
+            $ref: "#/definitions/Errors"
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+
+    delete:
+      tags:
+        - Houses
+      summary: Deletes house
+      responses:
+        200:
+          description: OK
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+
+  /classes:
+    post:
+      tags:
+        - Classes
+      summary: Adds a class.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: class
+          schema:
+            $ref: "#/definitions/Class"
+      responses:
+        201:
+          description: CREATED
+        400:
+          description: BAD REQUEST
+          schema:
+            $ref: "#/definitions/Errors"
+    
+    get:
+      tags:
+        - Classes
+      summary: Lists classes.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Class"
+
+  /classes/{id}:
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+        description: Class id
+
+    get:
+      tags:
+        - Classes
+      summary: Shows class
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Class"
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+
+    put:
+      tags:
+        - Classes
+      summary: Updates class
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: class
+          schema:
+            $ref: "#/definitions/Class"
+      responses:
+        200:
+          description: OK
+        400:
+          description: BAD REQUEST
+          schema:
+            $ref: "#/definitions/Errors"
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+
+    delete:
+      tags:
+        - Classes
+      summary: Deletes class
+      responses:
+        200:
+          description: OK
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+      
+  /wizards:
+    post:
+      tags:
+        - Wizards
+      summary: Adds a wizard.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: wizard
+          schema:
+            $ref: "#/definitions/WizardRequest"
+      responses:
+        201:
+          description: CREATED
+        400:
+          description: BAD REQUEST
+          schema:
+            $ref: "#/definitions/Errors"
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+    
+    get:
+      tags:
+        - Wizards
+      summary: Lists wizards.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Wizard"
+
+  /wizards/{id}:
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+        description: Wizard id
+
+    get:
+      tags:
+        - Wizards
+      summary: Shows wizard
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Wizard"
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+
+    put:
+      tags:
+        - Wizards
+      summary: Updates wizard
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: wizard
+          schema:
+            $ref: "#/definitions/WizardRequest"
+      responses:
+        200:
+          description: OK
+        400:
+          description: BAD REQUEST
+          schema:
+            $ref: "#/definitions/Errors"
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+
+    delete:
+      tags:
+        - Wizards
+      summary: Deletes wizard
+      responses:
+        200:
+          description: OK
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+
+  /registrations:
+    post:
+      tags:
+        - Registrations
+      summary: Adds a registration.
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: registration
+          schema:
+            $ref: "#/definitions/RegistrationRequest"
+      responses:
+        201:
+          description: CREATED
+        400:
+          description: BAD REQUEST
+          schema:
+            $ref: "#/definitions/Errors"
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+        422:
+          description: UNPROCESSABLE ENTITY
+          schema:
+            $ref: "#/definitions/Errors"
+    
+    get:
+      tags:
+        - Registrations
+      summary: Lists registrations.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Registration"
+
+  /registrations/{id}:
+    parameters:
+      - in: path
+        name: id
+        type: integer
+        required: true
+        description: Registration id
+
+    get:
+      tags:
+        - Registrations
+      summary: Shows registration
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: "#/definitions/Registration"
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+
+    patch:
+      tags:
+        - Registrations
+      summary: Updates registration state
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: status
+          schema:
+            $ref: "#/definitions/RegistrationStatusRequest"
+      responses:
+        200:
+          description: OK
+        400:
+          description: BAD REQUEST
+          schema:
+            $ref: "#/definitions/Errors"
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+        422:
+          description: UNPROCESSABLE ENTITY
+          schema:
+            $ref: "#/definitions/Errors"
+
+    delete:
+      tags:
+        - Registrations
+      summary: Deletes registration
+      responses:
+        200:
+          description: OK
+        404:
+          description: NOT FOUND
+          schema:
+            $ref: "#/definitions/Errors"
+
+definitions:
+  Errors:
+    type: array
+    items:
+      type: string
+      example: Message
+    description: Array of error messages.
+
+  House:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: House id.
+        example: 1
+        readOnly: true
+      name:
+        type: string
+        description: House name
+        example: Gryffindor
+      founder:
+        type: string
+        description: Name of the house founder
+        example: Godric Gryffindor
+    required:
+      - name
+      - founder
+
+  Class:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Class id.
+        example: 1
+        readOnly: true
+      name:
+        type: string
+        description: Class name
+        example: Potions
+      teacher:
+        type: string
+        description: Name of the cLass teacher
+        example: Severus Snape
+    required:
+      - name
+      - teacher
+
+  WizardRequest:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Wizard name
+        example: Harry Potter
+      age:
+        type: integer
+        description: Wizard age
+        example: 13
+      houseId:
+        type: integer
+        description: Wizard house id
+        example: 1
+    required:
+      - name
+      - age
+      - houseId
+
+  Wizard:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Wizard id
+        example: 1
+        readOnly: true
+      name:
+        type: string
+        description: Wizard name
+        example: Harry Potter
+      age:
+        type: integer
+        description: Wizard age
+        example: 13
+      house:
+        $ref: "#/definitions/House"
+      classes: 
+        type: array
+        items:
+          $ref: "#/definitions/Class"
+    required:
+      - name
+      - age
+      - house
+      - classes
+
+  RegistrationRequest:
+    type: object
+    properties:
+      classId:
+        type: integer
+        description: Registration class id
+        example: 1
+      wizardId:
+        type: integer
+        description: Registration wizard id
+        example: 1
+    required:
+      - classId
+      - wizardId
+
+  Status:
+    type: string
+    description: Registration status
+    example: IN_PROGRESS 
+    enum:
+      - IN_PROGRESS
+      - APPROVED
+      - FAILED
+
+  RegistrationStatusRequest:
+    type: object
+    properties:
+      status:
+        $ref: "#/definitions/Status"
+    required:
+      - status
+
+  Registration:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: Registration id.
+        example: 1
+        readOnly: true
+      status: 
+        $ref: "#/definitions/Status"
+      c:
+        $ref: "#/definitions/Class"
+      wizard:
+        $ref: "#/definitions/Wizard"
+    required:
+      - c
+      - status
+      - wizard
